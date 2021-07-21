@@ -1,230 +1,208 @@
-var startBtn = document.getElementById("start");
-var titleEl = document.getElementById("title");
-var scoreBtn = document.getElementById("highScore");
-var descriptionEl = document.getElementById("description");
-var answerListItems = document.getElementsByClassName("answer-list-item");
-var feedbackEl = document.getElementById("feedback");
-var scoreEl = document.getElementById("score");
-var submitBtn = document.getElementById("submit_button");
-var openingSectionEl = document.getElementById("opening_section");
-var quizlistSectionEl = document.getElementById("quizlist_section");
-var submitSectionEl = document.getElementById("submit_section");
-var scoreSectionEl = document.getElementById("score_section");
-var buttonSectionEl = document.getElementById("button_section");
-var gobackBtn = document.getElementById("goback_button");
-var clearBtn = document.getElementById("clear_button");
-var first = true;
-var validInput = true;
-
-var quizQuestions = [
-  {
-    "question": "Commonly used data type DO not Include:",
-    "answers": ["String", "Boolean", "Alerts", "Numbers"],
-    "correctAnswer": "Alerts"
-  },
-  {
-    "question": "The condition in an if / else statement is enclosed with___________.",
-    "answers": ["quotes", "curly brackets", "parenthesis", "squre brackets"],
-    "correctAnswer": "parenthesis"
-  },
-  {
-    "question": "A very useful tool used during devlopment and debugging for printing content to the debugger is:",
-    "answers": ["Javascript", "terminal/bash", "for loops", "console.log"],
-    "correctAnswer": "console.log"
-  },
-  {
-    "question": "Array in Javascript can be used to store__________.",
-    "answers": ["numbers and strings", "other arrays", "booleans", "all of the above"],
-    "correctAnswer": "all of the above"
-  },
-  {
-    "question": "String values must be enclosed within _________ when being assigned to variables.",
-    "answers": ["commas", "curly brackets", "quotes", "parenthesis"],
-    "correctAnswer": "quotes"
-  },
+// The array of questions for the game.
+var questions = [
+  { q: 'The sky is blue.', a: 't' },
+  { q: 'There are 365 days in a year.', a: 't' },
+  { q: 'There are 42 ounces in a pound.', a: 'f' },
+  { q: 'The Declaration of Independence was created in 1745.', a: 'f' },
+  { q: 'Bananas are vegetables.', a: 'f' }
 ];
 
-// Time Countdown
-var timerEl = document.getElementById("countdown");
-var timerSecondSpan = document.getElementById("timer_second");
-var timeInterval;
-var timeLeft = 0;
-var currentQuestionIndex = 0;
-
-function countdown() {
-  timeLeft = 99;
-  timeInterval = setInterval(function() {
-    timerSecondSpan.textContent = timeLeft;
-    timeLeft--;
-    if (timeLeft < 0 || currentQuestionIndex == quizQuestions.length) {
-      gameOver();
-    } 
-  }, 1000);
-};
-
-// Game Over
+// We start the game with a score of 0.
 var score = 0;
-function gameOver() {
-  clearInterval(timeInterval);
-  var score = timeLeft;
-  if (score < 0) {
-    score = 0
-  };
-  quizlistSectionEl.classList.add("display-none");
-  submitSectionEl.classList.remove("display-none");
-  feedbackEl.classList.add("display-none");
-  titleEl.textContent = "Game Over!";
-  scoreEl.textContent = score;
-}
- 
-// Question Section
-var loadQuestions = function(questionIndex) {
-  currentQuestionIndex = questionIndex;
-  var questionJson = quizQuestions[currentQuestionIndex];
-  var answers = questionJson["answers"];
-  var question = questionJson["question"];
-  titleEl.textContent = question;
-  quizlistSectionEl.classList.remove("display-none");
 
-  for (var i = 0 ; i < answerListItems.length; i++) {
-    answerListItems[i].textContent = answers[i];
-  }
-};
+// Loop over every question object
+for (var i = 0; i < questions.length; i++) {
+  // Display current question to user and ask OK/Cancel
+  var answer = confirm(questions[i].q);
 
-// Question Loading loop
-var setEventListeners = function() {
-  currentQuestionIndex = 0;
-  for (var i = 0 ; i < answerListItems.length; i++) {
-    // add eventlistner
-    answerListItems[i].addEventListener("click", function(event) {
-      var currentListItem = event.currentTarget;
-      var answersText = currentListItem.textContent;
-      var questionJson = quizQuestions[currentQuestionIndex];
-      if (answersText == questionJson["correctAnswer"]) {
-        feedbackEl.textContent = "Correct~!";
-        feedbackEl.style.color = "Green";
-        feedbackEl.style.fontSize = "250%";
-
-      } else {
-        timeLeft -= 10;
-        if (timeLeft < 0){
-          timeLeft = 0;
-        }
-        feedbackEl.textContent = "Wrong!!!!";
-        feedbackEl.style.color = "Red";
-        feedbackEl.style.fontSize = "250%";
-      }
-      timerSecondSpan.textContent = timeLeft ;
-      feedbackEl.setAttribute("class", "feedback");
-      ++currentQuestionIndex;
-      if (currentQuestionIndex < quizQuestions.length) {
-        loadQuestions(currentQuestionIndex);
-      } else {
-        gameOver();
-      }
-    });
-  }
-}
-
-// save scores
-function saveScore() {
-  var initial = document.getElementById("initial").value;
-  if(initial !== "") {
-    var finalScore = timeLeft.toString();
-    var highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-    var newScore = {
-      scoreKey: finalScore,
-      name: initial
-    };
-    
-    highscores.push(newScore);
-    highscores.sort(function(a, b) {
-      return b.scoreKey - a.scoreKey;
-    });
-    localStorage.setItem("highscores", JSON.stringify(highscores));
-
-    updateScoreList();
+  // Compare answers
+  if (
+    (answer === true && questions[i].a === 't') ||
+    (answer === false && questions[i].a === 'f')
+  ) {
+    // Increase score
+    score++;
+    // Alert the user
+    alert('Correct!');
   } else {
-    validInput = false;
-    alert ("Please Enter Your Initials!");
+    alert('Wrong!');
   }
-  
-};
-
-function updateScoreList() {
-  var highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-  var olEl = document.getElementById("score_list");
-  olEl.innerHTML = ""
-
-  // Updates score list with scores
-  highscores.forEach(function(newScore) {
-    var liEl = document.createElement("li");
-    liEl.textContent = newScore.name + " - " + newScore.scoreKey;
-    olEl.appendChild(liEl);
-  });
 }
 
-function goBack () {
-  location.reload();
-};
+// Show total at end
+alert('You got ' + score + '/' + questions.length);
+ 
 
+var emailInput = document.querySelector('#email');
+var passwordInput = document.querySelector('#password');
+var signUpButton = document.querySelector('#sign-up');
+var msgDiv = document.querySelector('#msg');
+var userEmailSpan = document.querySelector('#user-email');
+var userPasswordSpan = document.querySelector('#user-password');
 
-// END OF DECLARATION
+function renderLastRegistered() {
+  // Retrieve the last email and password from localStorage using `getItem()`
+  var email = localStorage.getItem('email');
+  var password = localStorage.getItem('password');
 
-
-updateScoreList();
-
-// Start button
-startBtn.addEventListener("click", function(event) {
-  event.preventDefault();
-
-  countdown();
-
-  scoreBtn.classList.add("display-none");
-  openingSectionEl.classList.add("display-none"); 
-  if (first) {
-    setEventListeners();
+  // If they are null, return early from this function
+  if (email === null || password === null) {
+    return;
   }
-  loadQuestions(0);
-  first = false;
+
+  // Set the text of the 'userEmailSpan' and 'userPasswordSpan' to the corresponding values from localStorage
+  userEmailSpan.textContent = email;
+  userPasswordSpan.textContent = password;
+}
+
+renderLastRegistered();
+
+function displayMessage(type, message) {
+  msgDiv.textContent = message;
+  msgDiv.setAttribute('class', type);
+}
+
+signUpButton.addEventListener('click', function(event) {
+  event.preventDefault();
+
+  var email = document.querySelector('#email').value;
+  var password = document.querySelector('#password').value;
+
+  if (email === '') {
+    displayMessage('error', 'Email cannot be blank');
+  } else if (password === '') {
+    displayMessage('error', 'Password cannot be blank');
+  } else {
+    displayMessage('success', 'Registered successfully');
+
+    // Save email and password to localStorage using `setItem()`
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    // Render the last registered email and password
+    renderLastRegistered();
+  }
+});
+ 
+
+// Creates a variable to hold the count
+var count = 0;
+
+// Uses querySelector to select the elements by their ids
+var countEl = document.querySelector('#count');
+var decrementEl = document.querySelector('#decrement');
+var incrementEl = document.querySelector('#increment');
+
+// Displays the current count on the page
+function setCounterText() {
+  countEl.textContent = count;
+}
+
+// Increments the count on click and calls setCounterText()
+incrementEl.addEventListener('click', function() {
+  count++;
+  setCounterText();
 });
 
-gobackBtn.onclick = goBack;
+// Decrements the count on click and calls setCounterText()
+decrementEl.addEventListener('click', function() {
+  if (count > 0) {
+    count--;
+    setCounterText();
+  }
+});
+ 
+// Creates a variable to hold the count
+var count = 0;
 
-// Submit button
-submitBtn.addEventListener("click", function(event) {
-  event.preventDefault();
-  validInput = true;
-  saveScore();
-  if (validInput) {
-    scoreSectionEl.classList.remove("display-none");
-    submitSectionEl.classList.add("display-none");
-    titleEl.textContent = "High scores!";
-    feedbackEl.classList.add("display-none");
-    scoreBtn.classList.add("display-none");
-    timerEl.classList.add("display-none");
-    buttonSectionEl.classList.remove("display-none");
+// Uses querySelector to select the elements by their ids
+var countEl = document.querySelector('#count');
+var decrementEl = document.querySelector('#decrement');
+var incrementEl = document.querySelector('#increment');
+
+// Displays the current count on the page
+function setCounterText() {
+  countEl.textContent = count;
+}
+
+// Increments the count on click and calls setCounterText()
+incrementEl.addEventListener('click', function() {
+  count++;
+  setCounterText();
+});
+
+// Decrements the count on click and calls setCounterText()
+decrementEl.addEventListener('click', function() {
+  if (count > 0) {
+    count--;
+    setCounterText();
   }
 });
 
-// clear button
-clearBtn.addEventListener("click", function(event) {
-  event.preventDefault();
-  var olEl = document.getElementById("score_list")
-  olEl.classList.add("display-none");
-  localStorage.clear();
-});
+// Create your HTML Page via DOM Methods here!
 
-// view Highscore button
-scoreBtn.addEventListener("click", function(event) {
-  event.preventDefault();
+// We access the <body> element by using `document.body`
+var body = document.body;
 
-  buttonSectionEl.classList.remove("display-none");
-  openingSectionEl.classList.add("display-none")
-  submitSectionEl.classList.add("display-none");
-  titleEl.textContent = "High scores!";
-  feedbackEl.classList.add("display-none");
-  scoreBtn.classList.add("display-none");
-  timerEl.classList.add("display-none");
-  scoreSectionEl.classList.remove("display-none");
-}); 
+// Add a centered h1
+// We create HTML elements by passing the element by name to `createElement()`
+// and storing the value in a variable
+var h1El = document.createElement('h1');
+
+// We add text by using the `textContent` property
+h1El.textContent = 'Welcome to my page';
+
+// We add style by using the `setAttribute()` method
+h1El.setAttribute('style', 'margin:auto; width:50%; text-align:center;');
+
+// We append the newly created element to the DOM using `appendChild()`
+body.appendChild(h1El);
+
+// Add a centered h2
+var h2El = document.createElement('h2');
+h2El.textContent =
+  'This HTML document was created using JavaScript and Chrome Dev Tools';
+h2El.setAttribute('style', 'margin:auto; width:100%; text-align:center;');
+body.appendChild(h2El);
+
+// Add a centered image with a centered caption under it
+var infoEl = document.createElement('div');
+var imgEl = document.createElement('img');
+var kittenEl = document.createElement('div');
+
+kittenEl.textContent = 'This is my kitten';
+
+infoEl.setAttribute('style', 'margin:auto; width:50%; text-align:center;');
+imgEl.setAttribute('src', 'http://placekitten.com/200/300');
+imgEl.setAttribute('height', 200);
+imgEl.setAttribute('width', 200);
+kittenEl.setAttribute('style', 'font-size:25px; text-align:center;');
+
+body.appendChild(infoEl);
+infoEl.appendChild(imgEl);
+infoEl.appendChild(kittenEl);
+
+// Add a list of your favorite foods (or other favorites)
+var favoriteEl = document.createElement('div');
+var listEl = document.createElement('ol');
+var li1 = document.createElement('li');
+var li2 = document.createElement('li');
+var li3 = document.createElement('li');
+var li4 = document.createElement('li');
+
+favoriteEl.textContent = 'My favorite foods are:';
+li1.textContent = 'Chicken Fingers';
+li2.textContent = 'Pizza';
+li3.textContent = 'Burgers';
+li4.textContent = 'Sushi';
+
+favoriteEl.setAttribute('style', 'font-size:20px;');
+listEl.setAttribute('style', 'background: #888888; padding:20px;');
+
+body.appendChild(favoriteEl);
+favoriteEl.appendChild(listEl);
+listEl.appendChild(li1);
+listEl.appendChild(li2);
+listEl.appendChild(li3);
+listEl.appendChild(li4);
+ 
+

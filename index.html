@@ -1,53 +1,98 @@
 <!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>True or False Game</title>
+  </head>
+
+  <body>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
+
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Code Quiz</title>
-  <link rel= "stylesheet" href= "css/style.css">
-</head>
-<body>
-  <button id="highScore">High scores</button>
-  <div id="countdown">90 seconds: <span id="timer_second">90</span></div>
-  <container class= "container">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>localStorage</title>
+  </head>
+  <body>
+    <div class="clearfix">
+      <div class="card">
+        <h2>Sign Up</h2>
+        <form method="POST">
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              placeholder="janedoe@mail.com"
+            />
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="supersecure123"
+            />
+          </div>
+          <div id="msg"></div>
+          <button id="sign-up">Sign Up</button>
+        </form>
+      </div>
 
-    <h1 id="title">Programming Quiz Challenge</h1>
-    <!-- Starting section -->
-    <div id="opening_section">
-      <p id="description">Answer the following programming questions within the time limit. 
-        
-      </p>
-      <button id="start">start!</button>
+      <div class="card">
+        <h2>Last Registered User:</h2>
+        <p><strong>Email:</strong> <span id="user-email"></span></p>
+        <p><strong>Password:</strong> <span id="user-password"></span></p>
+      </div>
     </div>
-    <!-- Quiz Sections -->
-    <div id="quizlist_section" class="display-none">
-      <ol class="onlist">
-        <li class="answer-list-item"></li>
-        <li class="answer-list-item"></li>
-        <li class="answer-list-item"></li>
-        <li class="answer-list-item"></li>
-      </ol>
-    </div>
-    <!-- Submit Sections -->
-    <div id="submit_section" class="display-none">
-      <p>Final score is <span id="score">100</span></p>
-      <label>Enter initials:</label>
-      <input type="text" id="initial" placeholder="Your Initial"> 
-      <button id="submit_button">Submit</button>
-    </div>
-    <!-- Score Sections -->
-    <div id="score_section" class="display-none">
-      <ol id= "score_list"></ol>
-    </div>
-    <div id="button_section" class="display-none">    
-      <button id="goback_button">Start Over</button>
-      <button id="clear_button">Clear High Score</button>
-    </div>
-  </container>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
+ 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Click Counter</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-  <div id="feedback" class="display-none"></div>
+  <body>
+    <div>
+      <h1>Current count: <span id="count">0</span></h1>
+      <div class="container">
+        <button id="decrement">Decrement</button>
+        <button id="increment">Increment</button>
+      </div>
+    </div>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
+ 
 
-  <script src="./js/script.js"></script>
-</body>
-</html> 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Look Ma No HTML</title>
+  </head>
+  <body>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
+ 
+
