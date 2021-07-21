@@ -42,7 +42,7 @@
     border-radius: 15px;
   }
   button:hover {
-    background-color:  rgb(184, 34, 214);
+    background-color:  rgb(34, 214, 73);
   }
   
   #start {
@@ -64,7 +64,7 @@
   
   .answer-list-item {
     padding: 10px 0 px 10px 15px;
-    background-color: rgb(58, 3, 80);
+    background-color: rgb(3, 24, 80);
     border-radius: 50px;
     margin: 20px 220px 0px 220px;
     color: white;
@@ -73,7 +73,7 @@
   }
   
   .answer-list-item:hover {
-    background-color:  rgb(184, 34, 214);
+    background-color:  rgb(34, 214, 73);
     cursor: pointer;
   }
   
@@ -108,7 +108,7 @@
   input {
     font-size: 30px;
     border-style: solid;
-    border-color: violet;
+    border-color: rgb(130, 238, 162);
     border-width: 5px;
   }
   
@@ -118,18 +118,18 @@
   
   #score_list li {
     padding: 10px 0 px 10px 15px;
-    background-color: rgb(58, 3, 80);
+    background-color: rgb(3, 80, 29);
     border-radius: 10px;
     margin: 10px 130px 0px 130px;
     color: white;
   }
   
   #score_list li:nth-child(even) {
-    background-color: rgb(146, 55, 146);
+    background-color: rgb(55, 146, 60);
   }
   
   ::marker {
-    color: rgb(58, 3, 80);
+    color: rgb(3, 80, 57);
     font-size: 1.2em;;
   }
  
